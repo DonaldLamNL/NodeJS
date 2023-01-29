@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="../js/http.js"></script>
+</head>
+<body>
+    <div>
+        <div>
+            Username: <input type="text" id="username">
+        </div>
+        <div>
+            Passward: <input type="passward" id="passward">
+        </div>
+        <button id="login">Login</button>
+        <button id="register">Sign</button>
+    </div>
+    <script>
+        const username = document.getElementById('username')
+        const passward = document.getElementById('passward')
+        const login = document.getElementById('login')
+        const register = document.getElementById('register')
+
+        login.onclick = async () => {
+            let res = await http({
+                method: 'GET',
+                url: 'http://127.0.0.1:3000/login',
+                params: {
+                    username: username.value,
+                    passward: passward.value
+                }
+            })
+            let {ok, msg} = res
+            if(ok === 1){
+                location.href = '/home.html'
+            }else{
+                alert(msg)
+            }
+        }
+        register.onclick = async () => {
+            const res = await http({
+                method: 'POST',
+                url: 'http://127.0.0.1:3000/login',
+                data: {
+                    username: username.value,
+                    passward: passward.value
+                }
+            })
+            let {ok, msg} = res
+            console.log(msg)
+        }
+    </script>
+</body>
+</html>

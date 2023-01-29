@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <title>Document</title>
+</head>
+<body>
+  <h1>mongoDB演示</h1>
+  <div>
+    <div>Username: <input type="text" id="username"></div>
+    <div>Password: <input type="password" id="password"></div>
+    <div>age: <input type="number" id="age"></div>
+    <button id="register">Register</button>
+    <hr>
+    <button id="update">Update</button>
+    <button id="delete">Delete</button>
+  </div>
+  <hr>
+  <table>
+    <thead>
+      <tr>
+        <td>ID</td>
+        <td>Username</td>
+        <td>Age</td>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+  <script>
+    const username = document.getElementById('username')
+    const password = document.getElementById('password')
+    const age = document.getElementById('age')
+    const registerBtn = document.getElementById('register')
+    const updateBtn = document.getElementById('update')
+    const deleteBtn = document.getElementById('delete')
+
+    registerBtn.onclick = () => {
+        console.log(username.value, password.value, age.value)
+        fetch('/api/users/add', {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify({
+            username: username.value,
+            password: password.value,
+            age: age.value
+          })
+        }).then(res => res.json()).then(res => {
+          console.log(res);
+        })
+    }
+    
+    updateBtn.onclick = () => {
+        console.log(username.value, password.value, age.value)
+        fetch('/api/users/update/62ec9fda45d98cb7c5f9492e', {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify({
+            username: username.value,
+            password: password.value,
+            age: age.value
+          })
+        }).then(res => res.json()).then(res => {
+          console.log(res);
+        })
+    }
+
+    deleteBtn.onclick = () => {
+        console.log(username.value, password.value, age.value)
+        fetch('/api/users/delete/62ec9fda45d98cb7c5f9492e')
+        .then(res => res.json()).then(res => {
+          console.log(res);
+        })
+    }
+
+    // 獲取列表
+    fetch('/api/users/list?page=1&limit=2').then(res => res.json()).then(res => {
+      console.log(res)
+      let tbody = document.querySelector('tbody')
+      tbody.innerHTML = res.map(item => `
+        <tr>
+          <td>${item._id}</td>  
+          <td>${item.username}</td>  
+          <td>${item.age}</td>  
+        </tr>  
+      `).join('')
+    })
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測試接口的跨域問題</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <button id="btnGET">GET</button>
+    <button id="btnPOST">POST</button>
+    <button id="btnDELETE">DELETE</button>
+    <button id="btnJSONP">JSONP</button>
+    
+    <script>
+        $(function(){
+            // 1. 測試 GET 接口
+            $('#btnGET').on('click', function(){
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://127.0.0.1:3000/api/get',
+                    data: {
+                        name: 'Donald',
+                        age: 20
+                    },
+                    success: function(res){
+                        console.log(res)
+                    }
+                })
+            })
+
+            // 2. 測試 POST 接口
+            $('#btnPOST').on('click', function(){
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://127.0.0.1:3000/api/post',
+                    data: {
+                        bookname: 'The old man and the sea',
+                        price: 20
+                    },
+                    success: function(res){
+                        console.log(res)
+                    }
+                })
+            })
+            
+            // 3. DELETE 按鈕綁定點擊事件
+            $('#btnDELETE').on('click', function(){
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'http://127.0.0.1:3000/api/delete',
+                    success: function(res){
+                        console.log(res)
+                    }
+                })
+            })
+
+            // 4. JSONP 按鈕綁定點擊事件
+            $('#btnJSONP').on('click', function(){
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://127.0.0.1:3000/api/jsonp',
+                    dataType: 'jsonp',
+                    success: function(res){
+                        console.log(res)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>
